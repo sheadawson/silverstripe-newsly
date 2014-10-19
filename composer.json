@@ -1,0 +1,25 @@
+{
+	"name": "sheadawson/silverstripe-newsly",
+	"type": "silverstripe-module",
+	"description": "A simple and configurable news module for SilverStripe CMS",
+	"license": "BSD-3-Clause",
+	"keywords": ["silverstripe", "cms", "news"],
+	"homepage": "http://github.com/sheadawson/silverstripe-newsly",
+	"authors": [
+		{
+			"name": "Shea Dawson",
+			"email": "shea@silverstripe.com.au"
+		}
+	],
+	"require": {
+		"php": ">=5.3.2",
+		"silverstripe/framework": "3.*",
+		"silverstripe/cms": "3.*",
+		"sheadawson/quickaddnew": "dev-master",
+		"micschk/silverstripe-excludechildren": "dev-master",
+		"icecaster/versioned-gridfield": "dev-master"
+	},
+	"extra": {
+		"installer-name": "newsly"
+	}
+}

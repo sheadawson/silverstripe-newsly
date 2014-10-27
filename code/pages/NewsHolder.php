@@ -161,15 +161,15 @@ class NewsHolder_Controller extends Page_Controller{
 
 	/**
 	 * Used by templates to access and iterate over articles
-	 * @var $limit - number of articles per page
+	 * @var $limit - number of articles per page (defaults to articles_per_page config value)
 	 * @return PaginatedList
 	 **/
-	public function Articles(){
+	public function Articles($limit = null){
 		$tag = $this->getCurrentTag();
 		$year = $this->getCurrentYear();
 		$month = $this->getCurrentMonth();
 		$start = (int)$this->request->requestVar('start') ?: null;
-		$limit = NewsHolder::config()->get('articles_per_page');
+		$limit = $limit ? $limit : NewsHolder::config()->get('articles_per_page');
 		
 		$list = $this->data()->getArticleList($tag, $year, $month);
 		

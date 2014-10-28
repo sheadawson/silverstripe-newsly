@@ -75,8 +75,10 @@ class NewsArticle extends Page{
 	private static $attachment_folder = 'news/attachments';
 
 	/**
-	 * Author mode, currently can be 'string' to enable a Author text field
-	 * or (bool)false to disable. 'Object' author mode may be available in future
+	 * Author mode can be: 
+	 * - string "string" to enable an Author text field (default)
+	 * - string "object" to enable Author DataObject
+	 * - boolean false to disable Article Authors
 	 * @var string|bool
 	 **/
 	private static $author_mode = 'string';
@@ -142,8 +144,6 @@ class NewsArticle extends Page{
 				'Content'
 			);
 		}
-
-		// todo - object author mode
 
 		// images
 		if($config->enable_images){
@@ -234,6 +234,23 @@ class NewsArticle extends Page{
 			return $author->Name;
 		}
 		return $this->Author;
+	}
+
+
+	/**
+	 * RelatedArticles
+	 * Returns a list of articles that share the same tags as this one
+	 * @param Int $limit
+	 * @return String
+	 **/
+	public function RelatedArticles($limit = null){
+		$tagIDs = $this->Tags()->column('ID');
+		
+		if(count($tagIDs)){
+			return NewsArticle::get()
+				->filter("Tags.ID:exactMatch", $tagIDs)
+				->exclude('ID', $this->ID);
+		}
 	}
 }
 

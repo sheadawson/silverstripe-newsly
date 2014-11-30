@@ -174,7 +174,11 @@ class NewsArticle extends Page{
 
 		// parent
 		$holders = NewsHolder::get();
-		$fields->addFieldToTab('Root.Main', DropdownField::create('ParentID', 'News Section', $holders->map()->toArray()), 'Title');
+		if($holders->count() > 1){
+			$fields->addFieldToTab('Root.Main', DropdownField::create('ParentID', 'News Section', $holders->map()->toArray()), 'Title');	
+		}else{
+			$fields->addFieldToTab('Root.Main', HiddenField::create('ParentID', 'News Section', $holders->first()->ID), 'Title');	
+		}
 
 		$this->extend('updateArticleCMSFields', $fields);
 

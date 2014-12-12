@@ -30,6 +30,7 @@ class NewsArticle extends Page{
 	private static $summary_fields = array(
 		'Title' => 'Title',
 		'PublishDate.Nice' => 'Date Published',
+		'ArticleIsPublished.Nice' => 'Published'
 	);
 
 	/**
@@ -255,6 +256,17 @@ class NewsArticle extends Page{
 				->filter("Tags.ID:exactMatch", $tagIDs)
 				->exclude('ID', $this->ID);
 		}
+	}
+
+
+	/**
+	 * ArticleIsPublished - flag for summary_fields
+	 * @return DBField
+	 **/
+	public function ArticleIsPublished(){
+		$field = Boolean::create('IsPublished');
+		$field->setValue($this->isPublished());
+		return $field;
 	}
 }
 

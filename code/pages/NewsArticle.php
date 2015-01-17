@@ -268,6 +268,15 @@ class NewsArticle extends Page{
 		$field->setValue($this->isPublished());
 		return $field;
 	}
+
+
+	/**
+	 * ShareLink
+	 * @return String
+	 **/
+	public function ShareLink(){
+		return urlencode($this->AbsoluteLink());
+	}
 }
 
 class NewsArticle_Controller extends Page_Controller{

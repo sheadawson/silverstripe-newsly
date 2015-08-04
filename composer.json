@@ -15,9 +15,9 @@
 		"php": ">=5.3.2",
 		"silverstripe/framework": "3.*",
 		"silverstripe/cms": "3.*",
-		"sheadawson/quickaddnew": "dev-master",
-		"micschk/silverstripe-excludechildren": "dev-master",
-		"icecaster/versioned-gridfield": "dev-master"
+		"sheadawson/quickaddnew": "1.1.x@stable",
+		"micschk/silverstripe-excludechildren": "1.x@stable",
+		"icecaster/versioned-gridfield": "1.0.x@stable"
 	},
 	"extra": {
 		"installer-name": "newsly"

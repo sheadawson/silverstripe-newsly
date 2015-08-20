@@ -29,6 +29,7 @@ class NewsHolder extends Page{
 
 		$articles = Versioned::get_by_stage('NewsArticle', 'Stage');
 
+		$fields->insertAfter(Tab::create('Articles'), 'Main');
 		$fields->addFieldToTab(
 			'Root.Articles',
 			GridField::create('Children', 'Articles', $articles, $gfConfig)

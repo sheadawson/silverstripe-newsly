@@ -133,7 +133,7 @@ class NewsArticle extends Page{
 				)
 				->useAddNew('NewsAuthor', $authorSource)
 				->setHasEmptyDefault(true),
-				'Summary'
+				'Content'
 			);
 		}
 

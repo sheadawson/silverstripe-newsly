@@ -34,7 +34,9 @@ class NewsHolder extends Page{
 			'Root.Articles',
 			GridField::create('Children', 'Articles', $articles, $gfConfig)
 		);
-
+		
+		$this->extend('updateNewsHolderCMSFields', $fields);
+		
 		return $fields;
 	}
 

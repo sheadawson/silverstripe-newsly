@@ -13,10 +13,6 @@ Newsly is a simple news/blog module for SilverStripe. It aims to offer configura
 
 * shea@livesource.co.nz
 
-## Installation
-
-	composer require sheadawson/silverstripe-newsly
-
 ## Features
 
 * NewsHolder and NewsArticle page types
@@ -25,6 +21,11 @@ Newsly is a simple news/blog module for SilverStripe. It aims to offer configura
 * Article can tags (optional)
 * Related articles (related via shared tags)
 * Article Authors (optional, can be configured as a simple string or a NewsAuthor object/profile)
+* Archive list, Tag list functions
+
+## Installation
+
+	composer require sheadawson/silverstripe-newsly
 
 ## Configuration
 
@@ -43,5 +44,5 @@ NewsArticle:
 | enable_tags | Enables Article Tagging. Disable this to remove the Tag field from the News Article CMS Fields  | boolean | true |
 | enable_featured_articles | Enables a "Feature this Article" check box to the News Article CMS Fields. You can use this to feature worthy articles on a home page, for example  | boolean | true |
 | image_folder | Folder where article images should be stored | string | news/images |
-| attachment_folder | Folder where article attachments should be stored |  |  |
+| attachment_folder | Folder where article attachments should be stored | string | news/attachments |
 | author_mode | Author mode can be: - string "string" to enable an Author text field (default) - string "object" to enable Author DataObject - boolean false to disable Article Authors | string | boolean |  |

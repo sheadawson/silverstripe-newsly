@@ -9,11 +9,7 @@ class NewsHolder extends Page{
 	);
 
 	private static $extensions = array(
-		'ExcludeChildren'
-	);
-
-	private static $excluded_children = array(
-		'NewsArticle'
+		'Lumberjack',
 	);
 
 	private static $articles_per_page = 10;
@@ -22,28 +18,41 @@ class NewsHolder extends Page{
 	public function getCMSFields(){
 		$fields = parent::getCMSFields();
 
-		$gfConfig = GridFieldConfig_relationEditor::create();
-		$gfConfig->removeComponentsByType('GridFieldDeleteAction')
-			->removeComponentsByType('GridFieldDetailForm')
-			->addComponents(new VersionedGridFieldDetailForm());
+		$fields->fieldByName('Root.ChildPages')->setTitle('News Articles');
 
-		$articles = Versioned::get_by_stage('NewsArticle', 'Stage');
+		if(Config::inst()->get('NewsArticle', 'enable_tags')) {
+			$fields->addFieldsToTab(
+				'Root.Tags',
+				GridField::create(
+					'Tags',
+					'News Article Tags',
+					NewsTag::get(),
+					GridFieldConfig_recordEditor::create()
+				)
+			);
+		}
 
-		$fields->insertAfter(Tab::create('Articles'), 'Main');
-		$fields->addFieldToTab(
-			'Root.Articles',
-			GridField::create('Children', 'Articles', $articles, $gfConfig)
-		);
-		
+		if(Config::inst()->get('NewsArticle', 'author_mode') == 'object') {
+			$fields->addFieldsToTab(
+				'Root.Authors',
+				GridField::create(
+					'Authors',
+					'News Article Authors',
+					NewsAuthor::get(),
+					GridFieldConfig_recordEditor::create()
+				)
+			);
+		}
+
 		$this->extend('updateNewsHolderCMSFields', $fields);
-		
+
 		return $fields;
 	}
 
 
 	public function getArticleList($tag=null, $year=null, $month=null){
 		$list = NewsArticle::get()->filter('ParentID', $this->ID);
-		
+
 		// filter by tag?
 		if($tag){
 			$list = $list->filter('Tags.ID:exactMatch', $tag);
@@ -84,7 +93,7 @@ class NewsHolder extends Page{
 
 	/**
 	 * Generates an ArrayList of archive years/months that contain news articles.
-	 * The currently filtered tag is considered an limits archive dates too. 
+	 * The currently filtered tag is considered an limits archive dates too.
 	 * @return ArrayList
 	 **/
 	public function getArchiveList($link=null, $currentYear=null, $currentMonth=null, $tag=null){
@@ -117,18 +126,18 @@ class NewsHolder extends Page{
 				$link = HTTP::setGetVar('year', $year, $link, '&');
 				$monthLink = HTTP::setGetVar('start', null, $link, '&');
 				$yearLink = HTTP::setGetVar('month', null, $link, '&');
-			
+
 
 				// Set up the relevant year array, if not yet available.
 				if(!isset($years[$year])) {
 					// Check if the currently processed year is the one that is selected via GET params.
 					$isActiveYear = (((int)$currentYear)==$year);
-					
+
 					$years[$year] = array(
-						'YearName'=>$year, 
-						'Months'=>array(),
+						'YearName'=> $year,
+						'Months'=> array(),
 						'Link' => $yearLink,
-						'Active'=>$isActiveYear,
+						'Active'=> $isActiveYear,
 						'LinkingMode'=> $isActiveYear ? "current" : "link"
 					);
 				}
@@ -154,9 +163,16 @@ class NewsHolder extends Page{
 		return new ArrayList(array_reverse($years));
 	}
 
+	/**
+	 * Used by templates to access and iterate over archive years/months
+	 * @return ArrayList
+	 **/
+	public function HolderController() {
+		return ModelAsController::controller_for($this);
+	}
 }
 
-class NewsHolder_Controller extends Page_Controller{
+class NewsHolder_Controller extends Page_Controller {
 
 	private static $allowed_actions = array(
 		'rss'
@@ -167,27 +183,26 @@ class NewsHolder_Controller extends Page_Controller{
 	 * @var $limit - number of articles per page (defaults to articles_per_page config value)
 	 * @return PaginatedList
 	 **/
-	public function Articles($limit = null){
+	public function Articles($limit = null) {
 		$tag = $this->getCurrentTag();
 		$year = $this->getCurrentYear();
 		$month = $this->getCurrentMonth();
 		$start = (int)$this->request->requestVar('start') ?: null;
 		$limit = $limit ? $limit : NewsHolder::config()->get('articles_per_page');
-		
+
 		$list = $this->data()->getArticleList($tag, $year, $month);
-		
+
 		$paged = new PaginatedList($list, $this->request);
 		$paged->setPageLength($limit);
-		
+
 		return $paged;
 	}
-
 
 	/**
 	 * Used by templates to access and iterate over archive years/months
 	 * @return ArrayList
 	 **/
-	public function Archive(){
+	public function Archive() {
 		$link = Director::makeRelative($_SERVER['REQUEST_URI']);
 		$currentYear = $this->getCurrentYear();
 		$currentMonth = $this->getCurrentMonth();
@@ -196,15 +211,13 @@ class NewsHolder_Controller extends Page_Controller{
 		return $this->data()->getArchiveList($link, $currentYear, $currentMonth, $tag);
 	}
 
-
 	/**
 	 * Link to RSS feed
 	 * @return string
 	 **/
-	public function RSSLink(){
+	public function RSSLink() {
 		return $this->Link('rss');
 	}
-
 
 	/**
 	 * Renders RSS feed
@@ -214,13 +227,12 @@ class NewsHolder_Controller extends Page_Controller{
 		return $rss->outputToBrowser();
 	}
 
-
 	/**
 	 * getLinkedTagList
 	 * Gets a list of tags with links, keeping current year and month request vars
 	 * @return ArrayList
 	 **/
-	public function getLinkedTagList(){
+	public function getLinkedTagList() {
 		$link = $this->Link();
 		$link = HTTP::setGetVar('year', $this->getCurrentYear(), $link, '&');
 		$link = HTTP::setGetVar('month', $this->getCurrentMonth(), $link, '&');
@@ -251,7 +263,7 @@ class NewsHolder_Controller extends Page_Controller{
 	 * getCurrentYear
 	 * @return int
 	 **/
-	public function getCurrentYear(){
+	public function getCurrentYear() {
 		return (int)$this->request->requestVar('year') ?: null;
 	}
 
@@ -260,7 +272,7 @@ class NewsHolder_Controller extends Page_Controller{
 	 * getCurrentMonth
 	 * @return int
 	 **/
-	public function getCurrentMonth(){
+	public function getCurrentMonth() {
 		return (int)$this->request->requestVar('month') ?: null;
 	}
 
@@ -269,7 +281,7 @@ class NewsHolder_Controller extends Page_Controller{
 	 * getCurrentTag
 	 * @return int
 	 **/
-	public function getCurrentTag(){
+	public function getCurrentTag() {
 		return (int)$this->request->requestVar('tag') ?: null;
 	}
 }

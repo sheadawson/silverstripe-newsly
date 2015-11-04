@@ -3,7 +3,7 @@
 class NewsArticle extends Page{
 
 	private static $description = 'A news article page';
-	
+
 	private static $db = array(
 		"Summary" => "HTMLText",
 		"PublishDate" => "Date",
@@ -15,11 +15,11 @@ class NewsArticle extends Page{
 		"Attachment" => "File",
 		"Image" => "Image",
 		"NewsAuthor" => "NewsAuthor"
-	);	
+	);
 
 	private static $many_many = array(
 		"Tags" => "NewsTag"
-	);	
+	);
 
 	private static $defaults = array(
 		"ShowInMenus" => 0
@@ -32,6 +32,12 @@ class NewsArticle extends Page{
 		'PublishDate.Nice' => 'Date Published',
 		'ArticleIsPublished.Nice' => 'Published'
 	);
+
+	/**
+	 * Manage these pages in a gridfield, rather than site tree
+	 * @var bool
+	 **/
+	private static $show_in_sitetree = false;
 
 	/**
 	 * Enable documents to be attached to articles
@@ -76,7 +82,7 @@ class NewsArticle extends Page{
 	private static $attachment_folder = 'news/attachments';
 
 	/**
-	 * Author mode can be: 
+	 * Author mode can be:
 	 * - string "string" to enable an Author text field (default)
 	 * - string "object" to enable Author DataObject
 	 * - boolean false to disable Article Authors
@@ -107,7 +113,7 @@ class NewsArticle extends Page{
 			};
 
 			$fields->addFieldToTab(
-				'Root.Main', 
+				'Root.Main',
 				ListboxField::create('Tags', 'Tags', $tagSource(), null, null, true)
 					->useAddnew('NewsTag', $tagSource),
 				'Content'
@@ -120,15 +126,15 @@ class NewsArticle extends Page{
 		}
 
 		if($config->author_mode == 'object'){
-			$authorSource = function(){ 
+			$authorSource = function(){
 				return NewsAuthor::get()->map('ID', 'Name')->toArray();
 			};
-			
+
 			$fields->addFieldToTab(
-				'Root.Main', 
+				'Root.Main',
 				DropdownField::create(
-					'NewsAuthorID', 
-					'Author', 
+					'NewsAuthorID',
+					'Author',
 					$authorSource()
 				)
 				->useAddNew('NewsAuthor', $authorSource)
@@ -140,7 +146,7 @@ class NewsArticle extends Page{
 		// featured
 		if($config->enable_featured_articles){
 			$fields->addFieldToTab(
-				'Root.Main', 
+				'Root.Main',
 				CheckboxField::create('Featured', _t('NewsArticle.FEATURED', 'Feature this article')),
 				'Content'
 			);
@@ -149,7 +155,7 @@ class NewsArticle extends Page{
 		// images
 		if($config->enable_images){
 			$fields->addFieldToTab(
-				'Root.FilesAndImages', 
+				'Root.FilesAndImages',
 				UploadField::create('Image')
 					->setAllowedFileCategories('image')
 					->setAllowedMaxFileNumber(1)
@@ -160,7 +166,7 @@ class NewsArticle extends Page{
 		// attachments
 		if($config->enable_attachments){
 			$fields->addFieldToTab(
-				'Root.FilesAndImages', 
+				'Root.FilesAndImages',
 				UploadField::create('Attachment')
 					->setAllowedFileCategories('doc')
 					->setAllowedMaxFileNumber(1)
@@ -170,15 +176,15 @@ class NewsArticle extends Page{
 
 		// summary
 		if($config->enable_summary){
-			$fields->addFieldToTab('Root.Main', HTMLEditorField::create('Summary', 'Article Summary'), 'Content');	
+			$fields->addFieldToTab('Root.Main', HTMLEditorField::create('Summary', 'Article Summary'), 'Content');
 		}
 
 		// parent
 		$holders = NewsHolder::get();
 		if($holders->count() > 1){
-			$fields->addFieldToTab('Root.Main', DropdownField::create('ParentID', 'News Section', $holders->map()->toArray()), 'Title');	
+			$fields->addFieldToTab('Root.Main', DropdownField::create('ParentID', 'News Section', $holders->map()->toArray()), 'Title');
 		}else{
-			$fields->addFieldToTab('Root.Main', HiddenField::create('ParentID', 'News Section', $holders->first()->ID), 'Title');	
+			$fields->addFieldToTab('Root.Main', HiddenField::create('ParentID', 'News Section', $holders->first()->ID), 'Title');
 		}
 
 		$this->extend('updateArticleCMSFields', $fields);
@@ -220,7 +226,7 @@ class NewsArticle extends Page{
 					'Title' => $tag->Title,
 					'ID' => $tag->ID,
 					'Link' => Controller::join_links($holder->Link(), "?tag=$tag->ID")
-				));	
+				));
 
 				$list->push($linkedTag);
 			}
@@ -235,7 +241,7 @@ class NewsArticle extends Page{
 	 **/
 	public function AuthorName(){
 		$author = $this->NewsAuthor();
-		if($author){
+		if($author->exists()){
 			return $author->Name;
 		}
 		return $this->Author;
@@ -250,7 +256,7 @@ class NewsArticle extends Page{
 	 **/
 	public function RelatedArticles($limit = null){
 		$tagIDs = $this->Tags()->column('ID');
-		
+
 		if(count($tagIDs)){
 			return NewsArticle::get()
 				->filter("Tags.ID:exactMatch", $tagIDs)
@@ -280,5 +286,5 @@ class NewsArticle extends Page{
 }
 
 class NewsArticle_Controller extends Page_Controller{
-	
+
 }

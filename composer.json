@@ -8,16 +8,15 @@
 	"authors": [
 		{
 			"name": "Shea Dawson",
-			"email": "shea@silverstripe.com.au"
+			"email": "shea@livesource.co.nz"
 		}
 	],
 	"require": {
 		"php": ">=5.3.2",
-		"silverstripe/framework": "3.*",
-		"silverstripe/cms": "3.*",
-		"sheadawson/quickaddnew": "1.1.x@stable",
-		"micschk/silverstripe-excludechildren": "1.x@stable",
-		"icecaster/versioned-gridfield": "1.0.x@stable"
+		"silverstripe/framework": "3.2.*",
+		"silverstripe/cms": "3.2.*",
+		"sheadawson/quickaddnew": "1.1.*",
+		"micmania1/silverstripe-lumberjack": "1.0.*"
 	},
 	"extra": {
 		"installer-name": "newsly"

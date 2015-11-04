@@ -13,8 +13,8 @@
 	],
 	"require": {
 		"php": ">=5.3.2",
-		"silverstripe/framework": "3.2.*",
-		"silverstripe/cms": "3.2.*",
+		"silverstripe/framework": "~3.1",
+		"silverstripe/cms": "~3.1",
 		"sheadawson/quickaddnew": "1.1.*",
 		"micmania1/silverstripe-lumberjack": "1.0.*"
 	},

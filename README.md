@@ -4,7 +4,7 @@ Newsly is a simple news/blog module for SilverStripe. It aims to offer configura
 
 ## Requirements
 
-* SilverStripe 3
+* SilverStripe ~3.1
 * [Lumberjack](https://github.com/micmania1/silverstripe-lumberjack)
 * [Quickaddnew](https://github.com/sheadawson/silverstripe-quickaddnew)
 

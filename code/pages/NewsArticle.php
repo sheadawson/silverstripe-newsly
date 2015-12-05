@@ -237,7 +237,7 @@ class NewsArticle extends Page{
 
 	/**
 	 * Author Name
-	 * @return String
+	 * @return string
 	 **/
 	public function AuthorName() {
 		$author = $this->NewsAuthor();
@@ -251,8 +251,8 @@ class NewsArticle extends Page{
 	/**
 	 * RelatedArticles
 	 * Returns a list of articles that share the same tags as this one
-	 * @param Int $limit
-	 * @return String
+	 * @param int $limit
+	 * @return string
 	 **/
 	public function RelatedArticles($limit = null) {
 		$tagIDs = $this->Tags()->column('ID');
@@ -278,7 +278,7 @@ class NewsArticle extends Page{
 
 	/**
 	 * ShareLink
-	 * @return String
+	 * @return string
 	 **/
 	public function ShareLink() {
 		return urlencode($this->AbsoluteLink());

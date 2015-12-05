@@ -16,7 +16,7 @@ class NewsTag extends DataObject{
 
 	private static $default_sort = 'Title ASC';
 
-	public function getCMSFields(){
+	public function getCMSFields() {
 		$fields = parent::getCMSFields();
 
 		$fields->removeByName('NewsArticles');

@@ -95,7 +95,7 @@ class NewsArticle extends Page{
 	 * getCMSFields
 	 * @return FieldList
 	 **/
-	public function getCMSFields(){
+	public function getCMSFields() {
 		$fields = parent::getCMSFields();
 
 		$fields->dataFieldByName('Title')->setTitle('Article Title');
@@ -107,8 +107,8 @@ class NewsArticle extends Page{
 		$fields->addFieldToTab('Root.Main', DateField::create('PublishDate')->setAttribute('placeholder', $this->dbObject('Created')->Format('M d, Y')), 'Content');
 
 		// tags
-		if($config->enable_tags){
-			$tagSource = function(){
+		if($config->enable_tags) {
+			$tagSource = function() {
 				return NewsTag::get()->map()->toArray();
 			};
 
@@ -121,12 +121,12 @@ class NewsArticle extends Page{
 		}
 
 		// author
-		if($config->author_mode == 'string'){
+		if($config->author_mode == 'string') {
 			$fields->addFieldToTab('Root.Main', TextField::create('Author', 'Author'), 'Content');
 		}
 
-		if($config->author_mode == 'object'){
-			$authorSource = function(){
+		if($config->author_mode == 'object') {
+			$authorSource = function() {
 				return NewsAuthor::get()->map('ID', 'Name')->toArray();
 			};
 
@@ -144,7 +144,7 @@ class NewsArticle extends Page{
 		}
 
 		// featured
-		if($config->enable_featured_articles){
+		if($config->enable_featured_articles) {
 			$fields->addFieldToTab(
 				'Root.Main',
 				CheckboxField::create('Featured', _t('NewsArticle.FEATURED', 'Feature this article')),
@@ -153,7 +153,7 @@ class NewsArticle extends Page{
 		}
 
 		// images
-		if($config->enable_images){
+		if($config->enable_images) {
 			$fields->addFieldToTab(
 				'Root.FilesAndImages',
 				UploadField::create('Image')
@@ -164,7 +164,7 @@ class NewsArticle extends Page{
 		}
 
 		// attachments
-		if($config->enable_attachments){
+		if($config->enable_attachments) {
 			$fields->addFieldToTab(
 				'Root.FilesAndImages',
 				UploadField::create('Attachment')
@@ -175,15 +175,15 @@ class NewsArticle extends Page{
 		}
 
 		// summary
-		if($config->enable_summary){
+		if($config->enable_summary) {
 			$fields->addFieldToTab('Root.Main', HTMLEditorField::create('Summary', 'Article Summary'), 'Content');
 		}
 
 		// parent
 		$holders = NewsHolder::get();
-		if($holders->count() > 1){
+		if($holders->count() > 1) {
 			$fields->addFieldToTab('Root.Main', DropdownField::create('ParentID', 'News Section', $holders->map()->toArray()), 'Title');
-		}else{
+		} else {
 			$fields->addFieldToTab('Root.Main', HiddenField::create('ParentID', 'News Section', $holders->first()->ID), 'Title');
 		}
 
@@ -196,16 +196,16 @@ class NewsArticle extends Page{
 	/**
 	 * onBeforeWrite
 	 **/
-	public function onBeforeWrite(){
+	public function onBeforeWrite() {
 		parent::onBeforeWrite();
 		// Set publish date to the created date, if publish date not set
-		if(!$this->PublishDate){
+		if(!$this->PublishDate) {
 			$this->PublishDate = $this->Created;
 		}
 
 		// a bit hackey, but we need to set the parent ID somehow in GridField form...
-		if($currentPage = Controller::curr()->currentPage()){
-			if($currentPage->ClassName == 'NewsHolder' || is_subclass_of($currentPage, 'NewsHolder')){
+		if($currentPage = Controller::curr()->currentPage()) {
+			if($currentPage->ClassName == 'NewsHolder' || is_subclass_of($currentPage, 'NewsHolder')) {
 				$this->ParentID = $currentPage->ID;
 			}
 		}
@@ -216,9 +216,9 @@ class NewsArticle extends Page{
 	 * Generates an ArrayList of this artices tags with Links
 	 * @return ArrayList
 	 **/
-	public function LinkedTags(){
+	public function LinkedTags() {
 		$tags = $this->Tags();
-		if($tags->count()){
+		if($tags->count()) {
 			$list = ArrayList::create();
 			$holder = $this->Parent();
 			foreach ($tags as $tag) {
@@ -239,9 +239,9 @@ class NewsArticle extends Page{
 	 * Author Name
 	 * @return String
 	 **/
-	public function AuthorName(){
+	public function AuthorName() {
 		$author = $this->NewsAuthor();
-		if($author->exists()){
+		if($author->exists()) {
 			return $author->Name;
 		}
 		return $this->Author;
@@ -254,10 +254,10 @@ class NewsArticle extends Page{
 	 * @param Int $limit
 	 * @return String
 	 **/
-	public function RelatedArticles($limit = null){
+	public function RelatedArticles($limit = null) {
 		$tagIDs = $this->Tags()->column('ID');
 
-		if(count($tagIDs)){
+		if(count($tagIDs)) {
 			return NewsArticle::get()
 				->filter("Tags.ID:exactMatch", $tagIDs)
 				->exclude('ID', $this->ID);
@@ -269,7 +269,7 @@ class NewsArticle extends Page{
 	 * ArticleIsPublished - flag for summary_fields
 	 * @return DBField
 	 **/
-	public function ArticleIsPublished(){
+	public function ArticleIsPublished() {
 		$field = Boolean::create('IsPublished');
 		$field->setValue($this->isPublished());
 		return $field;
@@ -280,7 +280,7 @@ class NewsArticle extends Page{
 	 * ShareLink
 	 * @return String
 	 **/
-	public function ShareLink(){
+	public function ShareLink() {
 		return urlencode($this->AbsoluteLink());
 	}
 }

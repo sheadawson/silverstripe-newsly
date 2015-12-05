@@ -15,7 +15,7 @@ class NewsHolder extends Page{
 	private static $articles_per_page = 10;
 
 
-	public function getCMSFields(){
+	public function getCMSFields() {
 		$fields = parent::getCMSFields();
 
 		$fields->fieldByName('Root.ChildPages')->setTitle('News Articles');
@@ -50,11 +50,11 @@ class NewsHolder extends Page{
 	}
 
 
-	public function getArticleList($tag=null, $year=null, $month=null){
+	public function getArticleList($tag=null, $year=null, $month=null) {
 		$list = NewsArticle::get()->filter('ParentID', $this->ID);
 
 		// filter by tag?
-		if($tag){
+		if($tag) {
 			$list = $list->filter('Tags.ID:exactMatch', $tag);
 		}
 
@@ -66,7 +66,7 @@ class NewsHolder extends Page{
 			$beginDate = "$year-$month-01 00:00:00";
 			$endDate = date('Y-m-d H:i:s', strtotime("$year-$month-1 00:00:00 +1 month"));
 			$list = $list->where("(\"NewsArticle\".\"PublishDate\">='$beginDate' AND \"NewsArticle\".\"PublishDate\"<'$endDate')");
-		}elseif($year){
+		}elseif($year) {
 			$beginDate = "$year-01-01 00:00:00";
 			$endDate = "$year-12-31 23:59:59";
 			$list = $list->where("(\"NewsArticle\".\"PublishDate\">='$beginDate' AND \"NewsArticle\".\"PublishDate\"<'$endDate')");
@@ -80,7 +80,7 @@ class NewsHolder extends Page{
 	 * List of News tags used by articles in this section
 	 * @return DataList
 	 **/
-	public function getTagList(){
+	public function getTagList() {
 		$articleIDs = $this->getArticleList()->column('ID');
 		$articleIDs = implode(',', $articleIDs);
 		$tags = NewsTag::get()
@@ -96,7 +96,7 @@ class NewsHolder extends Page{
 	 * The currently filtered tag is considered an limits archive dates too.
 	 * @return ArrayList
 	 **/
-	public function getArchiveList($link=null, $currentYear=null, $currentMonth=null, $tag=null){
+	public function getArchiveList($link=null, $currentYear=null, $currentMonth=null, $tag=null) {
 		$link = $link ? $link : $this->Link();
 		$articles = $this->getArticleList($tag);
 
@@ -106,7 +106,7 @@ class NewsHolder extends Page{
 			$date = $article->obj('PublishDate');
 			$year = $date->Format('Y');
 
-			if($year){
+			if($year) {
 				$monthNumber = $date->Format('n');
 				$monthName = $date->Format('M');
 
@@ -142,7 +142,7 @@ class NewsHolder extends Page{
 					);
 				}
 
-				if(!isset($years[$year]['Months'][$monthNumber])){
+				if(!isset($years[$year]['Months'][$monthNumber])) {
 					$years[$year]['Months'][$monthNumber] = array(
 						'MonthName'=>$monthName,
 						'MonthNumber'=>$monthNumber,

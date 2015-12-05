@@ -36,22 +36,22 @@ class NewsAuthor extends DataObject {
 	private static $image_folder = 'news/authors';
 
 
-	public function getCMSFields(){
+	public function getCMSFields() {
 		$config = $this->config();
 		$fields = parent::getCMSFields();
 		$fields->removeByName('NewsArticles');
 
 		// images
-		if($config->enable_images){
+		if($config->enable_images) {
 			$fields->dataFieldByName('Image')->setFolderName($config->image_folder);
-		}else{
+		} else {
 			$fields->removeByName('Image');
 		}
 
 		// links
-		if($config->enable_links){
+		if($config->enable_links) {
 			$fields->addFieldToTab('Root.Main', LinkField::create('LinkID', 'Link'));
-		}else{
+		} else {
 			$fields->removeByName('LinkID');
 		}
 
@@ -59,7 +59,7 @@ class NewsAuthor extends DataObject {
 	}
 
 	
-	public function forTemplate(){
+	public function forTemplate() {
 		return $this->Name;
 	}
 

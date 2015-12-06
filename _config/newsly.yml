@@ -2,5 +2,5 @@
 name: 'newsly'
 ---
 NewsHolder:
-  extensions: 
-    - ExcludeChildren
+  extensions:
+    - Lumberjack

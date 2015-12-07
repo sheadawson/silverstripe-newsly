@@ -15,7 +15,7 @@ class NewsHolder extends Page{
 	private static $articles_per_page = 10;
 
 
-	public function getCMSFields(){
+	public function getCMSFields() {
 		$fields = parent::getCMSFields();
 
 		$fields->fieldByName('Root.ChildPages')->setTitle('News Articles');
@@ -50,23 +50,23 @@ class NewsHolder extends Page{
 	}
 
 
-	public function getArticleList($tag=null, $year=null, $month=null){
+	public function getArticleList($tag=null, $year=null, $month=null) {
 		$list = NewsArticle::get()->filter('ParentID', $this->ID);
 
 		// filter by tag?
-		if($tag){
+		if($tag) {
 			$list = $list->filter('Tags.ID:exactMatch', $tag);
 		}
 
 		// filter buy date range?
-		$year = (int)$year;
-		$month = (int)$month;
+		$year = (int) $year;
+		$month = (int) $month;
 
 		if ($year && $month) {
 			$beginDate = "$year-$month-01 00:00:00";
 			$endDate = date('Y-m-d H:i:s', strtotime("$year-$month-1 00:00:00 +1 month"));
 			$list = $list->where("(\"NewsArticle\".\"PublishDate\">='$beginDate' AND \"NewsArticle\".\"PublishDate\"<'$endDate')");
-		}elseif($year){
+		}elseif($year) {
 			$beginDate = "$year-01-01 00:00:00";
 			$endDate = "$year-12-31 23:59:59";
 			$list = $list->where("(\"NewsArticle\".\"PublishDate\">='$beginDate' AND \"NewsArticle\".\"PublishDate\"<'$endDate')");
@@ -80,7 +80,7 @@ class NewsHolder extends Page{
 	 * List of News tags used by articles in this section
 	 * @return DataList
 	 **/
-	public function getTagList(){
+	public function getTagList() {
 		$articleIDs = $this->getArticleList()->column('ID');
 		$articleIDs = implode(',', $articleIDs);
 		$tags = NewsTag::get()
@@ -96,7 +96,7 @@ class NewsHolder extends Page{
 	 * The currently filtered tag is considered an limits archive dates too.
 	 * @return ArrayList
 	 **/
-	public function getArchiveList($link=null, $currentYear=null, $currentMonth=null, $tag=null){
+	public function getArchiveList($link=null, $currentYear=null, $currentMonth=null, $tag=null) {
 		$link = $link ? $link : $this->Link();
 		$articles = $this->getArticleList($tag);
 
@@ -106,7 +106,7 @@ class NewsHolder extends Page{
 			$date = $article->obj('PublishDate');
 			$year = $date->Format('Y');
 
-			if($year){
+			if($year) {
 				$monthNumber = $date->Format('n');
 				$monthName = $date->Format('M');
 
@@ -118,7 +118,7 @@ class NewsHolder extends Page{
 				// Check if the currently processed month is the one that is selected via GET params.
 				$active = false;
 				if (isset($monthNumber)) {
-					$active = (((int)$currentYear)==$year && ((int)$currentMonth)==$monthNumber);
+					$active = (((int) $currentYear)==$year && ((int) $currentMonth)==$monthNumber);
 				}
 
 				// Build the link - keep the tag and date filter, but reset the pagination.
@@ -131,7 +131,7 @@ class NewsHolder extends Page{
 				// Set up the relevant year array, if not yet available.
 				if(!isset($years[$year])) {
 					// Check if the currently processed year is the one that is selected via GET params.
-					$isActiveYear = (((int)$currentYear)==$year);
+					$isActiveYear = (((int) $currentYear)==$year);
 
 					$years[$year] = array(
 						'YearName'=> $year,
@@ -142,7 +142,7 @@ class NewsHolder extends Page{
 					);
 				}
 
-				if(!isset($years[$year]['Months'][$monthNumber])){
+				if(!isset($years[$year]['Months'][$monthNumber])) {
 					$years[$year]['Months'][$monthNumber] = array(
 						'MonthName'=>$monthName,
 						'MonthNumber'=>$monthNumber,
@@ -187,7 +187,7 @@ class NewsHolder_Controller extends Page_Controller {
 		$tag = $this->getCurrentTag();
 		$year = $this->getCurrentYear();
 		$month = $this->getCurrentMonth();
-		$start = (int)$this->request->requestVar('start') ?: null;
+		$start = (int) $this->request->requestVar('start') ?: null;
 		$limit = $limit ? $limit : NewsHolder::config()->get('articles_per_page');
 
 		$list = $this->data()->getArticleList($tag, $year, $month);
@@ -264,7 +264,7 @@ class NewsHolder_Controller extends Page_Controller {
 	 * @return int
 	 **/
 	public function getCurrentYear() {
-		return (int)$this->request->requestVar('year') ?: null;
+		return (int) $this->request->requestVar('year') ?: null;
 	}
 
 
@@ -273,7 +273,7 @@ class NewsHolder_Controller extends Page_Controller {
 	 * @return int
 	 **/
 	public function getCurrentMonth() {
-		return (int)$this->request->requestVar('month') ?: null;
+		return (int) $this->request->requestVar('month') ?: null;
 	}
 
 
@@ -282,6 +282,6 @@ class NewsHolder_Controller extends Page_Controller {
 	 * @return int
 	 **/
 	public function getCurrentTag() {
-		return (int)$this->request->requestVar('tag') ?: null;
+		return (int) $this->request->requestVar('tag') ?: null;
 	}
 }

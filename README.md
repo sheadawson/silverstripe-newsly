@@ -17,8 +17,8 @@ Newsly is a simple news/blog module for SilverStripe. It aims to offer configura
 
 * NewsHolder and NewsArticle page types
 * Articles managed in gridfield with lumberjack
-* Articles can have images and attachements (optional)
-* Article can tags (optional)
+* Articles can have images and attachments (optional)
+* Articles can have tags (optional)
 * Related articles (related via shared tags)
 * Article Authors (optional, can be configured as a simple string or a NewsAuthor object/profile)
 * Archive list, Tag list functions

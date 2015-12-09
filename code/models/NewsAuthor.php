@@ -36,7 +36,7 @@ class NewsAuthor extends DataObject {
 	private static $image_folder = 'news/authors';
 
 
-	public function getCMSFields(){
+	public function getCMSFields() {
 		$config = $this->config();
 		$fields = parent::getCMSFields();
 		$fields->removeByName('NewsArticles');

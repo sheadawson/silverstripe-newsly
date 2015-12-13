@@ -36,48 +36,56 @@ class NewsArticle extends Page
 
     /**
      * Manage these pages in a gridfield, rather than site tree
+     *
      * @var bool
      **/
     private static $show_in_sitetree = false;
 
     /**
      * Enable documents to be attached to articles
+     *
      * @var bool
      **/
     private static $enable_attachments = true;
 
     /**
      * Enable images to be attached to articles
+     *
      * @var bool
      **/
     private static $enable_images = true;
 
     /**
      * Enable a summary field on articles
+     *
      * @var bool
      **/
     private static $enable_summary = true;
 
     /**
      * Enable article tagging
+     *
      * @var bool
      **/
     private static $enable_tags = true;
 
     /**
      * Enable featured articles
+     *
      * @var bool
      **/
     private static $enable_featured_articles = true;
 
     /**
      * Folder where article images should be stored
+     *
      * @var string
      **/
     private static $image_folder = 'news/images';
 
     /**
      * Folder where article attachments should be stored
+     *
      * @var string
      **/
     private static $attachment_folder = 'news/attachments';
@@ -87,13 +95,13 @@ class NewsArticle extends Page
      * - string "string" to enable an Author text field (default)
      * - string "object" to enable Author DataObject
      * - boolean false to disable Article Authors
+     *
      * @var string|bool
      **/
     private static $author_mode = 'string';
 
 
     /**
-     * getCMSFields
      * @return FieldList
      **/
     public function getCMSFields()
@@ -194,7 +202,6 @@ class NewsArticle extends Page
         return $fields;
     }
 
-
     /**
      * onBeforeWrite
      **/
@@ -217,6 +224,7 @@ class NewsArticle extends Page
 
     /**
      * Generates an ArrayList of this artices tags with Links
+     *
      * @return ArrayList
      **/
     public function LinkedTags()
@@ -238,9 +246,9 @@ class NewsArticle extends Page
         }
     }
 
-
     /**
      * Author Name
+     *
      * @return string
      **/
     public function AuthorName()
@@ -252,10 +260,9 @@ class NewsArticle extends Page
         return $this->Author;
     }
 
-
     /**
-     * RelatedArticles
-     * Returns a list of articles that share the same tags as this one
+     * RelatedArticles - Returns a list of articles that share the same tags as this one
+     *
      * @param int $limit
      * @return string
      **/
@@ -273,18 +280,21 @@ class NewsArticle extends Page
 
     /**
      * ArticleIsPublished - flag for summary_fields
+     *
      * @return DBField
      **/
     public function ArticleIsPublished()
     {
         $field = Boolean::create('IsPublished');
         $field->setValue($this->isPublished());
+
         return $field;
     }
 
 
     /**
      * ShareLink
+     *
      * @return string
      **/
     public function ShareLink()

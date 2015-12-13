@@ -15,7 +15,9 @@ class NewsHolder extends Page
 
     private static $articles_per_page = 10;
 
-
+    /**
+     * @return FieldList
+     */
     public function getCMSFields()
     {
         $fields = parent::getCMSFields();
@@ -51,8 +53,13 @@ class NewsHolder extends Page
         return $fields;
     }
 
-
-    public function getArticleList($tag=null, $year=null, $month=null)
+    /**
+     * @param  int $tag
+     * @param  int $year
+     * @param  int $month
+     * @return DataList
+     */
+    public function getArticleList($tag = null, $year = null, $month = null)
     {
         $list = NewsArticle::get()->filter('ParentID', $this->ID);
 
@@ -81,6 +88,7 @@ class NewsHolder extends Page
 
     /**
      * List of News tags used by articles in this section
+     *
      * @return DataList
      **/
     public function getTagList()
@@ -94,10 +102,10 @@ class NewsHolder extends Page
         return $tags;
     }
 
-
     /**
      * Generates an ArrayList of archive years/months that contain news articles.
      * The currently filtered tag is considered an limits archive dates too.
+     *
      * @return ArrayList
      **/
     public function getArchiveList($link=null, $currentYear=null, $currentMonth=null, $tag=null)
@@ -170,6 +178,7 @@ class NewsHolder extends Page
 
     /**
      * Used by templates to access and iterate over archive years/months
+     *
      * @return ArrayList
      **/
     public function HolderController()
@@ -187,7 +196,8 @@ class NewsHolder_Controller extends Page_Controller
 
     /**
      * Used by templates to access and iterate over articles
-     * @var $limit - number of articles per page (defaults to articles_per_page config value)
+     *
+     * @param $limit - number of articles per page (defaults to articles_per_page config value)
      * @return PaginatedList
      **/
     public function Articles($limit = null)
@@ -208,6 +218,7 @@ class NewsHolder_Controller extends Page_Controller
 
     /**
      * Used by templates to access and iterate over archive years/months
+     *
      * @return ArrayList
      **/
     public function Archive()
@@ -222,6 +233,7 @@ class NewsHolder_Controller extends Page_Controller
 
     /**
      * Link to RSS feed
+     *
      * @return string
      **/
     public function RSSLink()
@@ -241,6 +253,7 @@ class NewsHolder_Controller extends Page_Controller
     /**
      * getLinkedTagList
      * Gets a list of tags with links, keeping current year and month request vars
+     *
      * @return ArrayList
      **/
     public function getLinkedTagList()
@@ -270,9 +283,9 @@ class NewsHolder_Controller extends Page_Controller
         return $list;
     }
 
-
     /**
      * getCurrentYear
+     *
      * @return int
      **/
     public function getCurrentYear()
@@ -280,9 +293,9 @@ class NewsHolder_Controller extends Page_Controller
         return (int) $this->request->requestVar('year') ?: null;
     }
 
-
     /**
      * getCurrentMonth
+     *
      * @return int
      **/
     public function getCurrentMonth()
@@ -290,9 +303,9 @@ class NewsHolder_Controller extends Page_Controller
         return (int) $this->request->requestVar('month') ?: null;
     }
 
-
     /**
      * getCurrentTag
+     *
      * @return int
      **/
     public function getCurrentTag()

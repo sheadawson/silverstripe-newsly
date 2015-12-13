@@ -106,7 +106,13 @@ class NewsArticle extends Page
         $config = $this->config();
 
         // publish date
-        $fields->addFieldToTab('Root.Main', DateField::create('PublishDate')->setAttribute('placeholder', $this->dbObject('Created')->Format('M d, Y')), 'Content');
+        $fields->addFieldToTab(
+            'Root.Main',
+            DateField::create('PublishDate')
+                ->setAttribute('placeholder', $this->dbObject('Created')->Format('M d, Y'))
+                ->setConfig('showcalendar', true),
+            'Content'
+        );
 
         // tags
         if ($config->enable_tags) {

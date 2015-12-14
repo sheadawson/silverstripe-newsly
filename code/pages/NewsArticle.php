@@ -226,6 +226,7 @@ class NewsArticle extends Page
     public function onBeforeWrite()
     {
         parent::onBeforeWrite();
+
         // Set publish date to the created date, if publish date not set
         if (!$this->PublishDate) {
             $this->PublishDate = $this->Created;
@@ -272,17 +273,15 @@ class NewsArticle extends Page
     public function AuthorName()
     {
         $author = $this->NewsAuthor();
-        if ($author->exists()) {
-            return $author->Name;
-        }
-        return $this->Author;
+
+        return ($author->exists()) ? $author->Name : $this->Author;
     }
 
     /**
      * RelatedArticles - Returns a list of articles that share the same tags as this one
      *
      * @param int $limit
-     * @return string
+     * @return DataList
      **/
     public function RelatedArticles($limit = null)
     {
@@ -304,6 +303,7 @@ class NewsArticle extends Page
     public function ArticleIsPublished()
     {
         $field = Boolean::create('IsPublished');
+
         $field->setValue($this->isPublished());
 
         return $field;

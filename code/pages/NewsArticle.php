@@ -192,15 +192,27 @@ class NewsArticle extends Page
 
         // summary
         if ($config->enable_summary) {
-            $fields->addFieldToTab('Root.Main', HTMLEditorField::create('Summary', 'Article Summary'), 'Content');
+            $fields->addFieldToTab(
+                'Root.Main',
+                HTMLEditorField::create('Summary', 'Article Summary')->setRows(5),
+                'Content'
+            );
         }
 
         // parent
         $holders = NewsHolder::get();
         if ($holders->count() > 1) {
-            $fields->addFieldToTab('Root.Main', DropdownField::create('ParentID', 'News Section', $holders->map()->toArray()), 'Title');
+            $fields->addFieldToTab(
+                'Root.Main',
+                DropdownField::create('ParentID', 'News Section', $holders->map()->toArray()),
+                'Title'
+            );
         } else {
-            $fields->addFieldToTab('Root.Main', HiddenField::create('ParentID', 'News Section', $holders->first()->ID), 'Title');
+            $fields->addFieldToTab(
+                'Root.Main',
+                HiddenField::create('ParentID', 'News Section', $holders->first()->ID),
+                'Title'
+            );
         }
 
         $this->extend('updateArticleCMSFields', $fields);

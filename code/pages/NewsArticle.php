@@ -2,9 +2,14 @@
 
 class NewsArticle extends Page
 {
-
+    /**
+     * @var string
+     */
     private static $description = 'A news article page';
 
+    /**
+     * @var array
+     */
     private static $db = array(
         "Summary" => "HTMLText",
         "PublishDate" => "Date",
@@ -12,27 +17,42 @@ class NewsArticle extends Page
         "Featured" => "Boolean"
     );
 
+    /**
+     * @var array
+     */
     private static $has_one = array(
         "Attachment" => "File",
         "Image" => "Image",
         "NewsAuthor" => "NewsAuthor"
     );
 
+    /**
+     * @var array
+     */
     private static $many_many = array(
         "Tags" => "NewsTag"
     );
 
+    /**
+     * @var array
+     */
     private static $defaults = array(
         "ShowInMenus" => 0
     );
 
-    private static $default_sort = 'PublishDate DESC';
-
+    /**
+     * @var array
+     */
     private static $summary_fields = array(
         'Title' => 'Title',
         'PublishDate.Nice' => 'Date Published',
         'ArticleIsPublished.Nice' => 'Published'
     );
+
+    /**
+     * @var string
+     */
+    private static $default_sort = 'PublishDate DESC';
 
     /**
      * Manage these pages in a gridfield, rather than site tree
@@ -99,7 +119,6 @@ class NewsArticle extends Page
      * @var string|bool
      **/
     private static $author_mode = 'string';
-
 
     /**
      * @return FieldList
@@ -210,9 +229,7 @@ class NewsArticle extends Page
         parent::onBeforeWrite();
 
         // Set publish date to the created date, if publish date not set
-        if (!$this->PublishDate) {
-            $this->PublishDate = $this->Created;
-        }
+        if (!$this->PublishDate) $this->PublishDate = $this->Created;
 
         // a bit hackey, but we need to set the parent ID somehow in GridField form...
         if ($currentPage = Controller::curr()->currentPage()) {

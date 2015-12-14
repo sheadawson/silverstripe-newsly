@@ -2,9 +2,14 @@
 
 class NewsHolder extends Page
 {
-
+    /**
+     * @var string
+     */
     private static $description = 'News article collection holder';
 
+    /**
+     * @var array
+     */
     private static $allowed_children = array(
         'NewsArticle'
     );

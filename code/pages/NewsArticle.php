@@ -127,6 +127,7 @@ class NewsArticle extends Page
     {
         $fields = parent::getCMSFields();
 
+        // set different names for some fields
         $fields->dataFieldByName('Title')->setTitle('Article Title');
         $fields->dataFieldByName('Content')->setTitle('Article Content');
 

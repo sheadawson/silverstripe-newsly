@@ -73,7 +73,7 @@ class NewsHolder extends Page
             $list = $list->filter('Tags.ID:exactMatch', $tag);
         }
 
-        // filter buy date range?
+        // filter by date range?
         $year = (int) $year;
         $month = (int) $month;
 
@@ -104,6 +104,7 @@ class NewsHolder extends Page
             ->innerJoin('NewsArticle_Tags', '"NewsTag"."ID"="NewsArticle_Tags"."NewsTagID"')
             ->where("\"NewsArticle_Tags\".\"NewsArticleID\" IN ($articleIDs)")
             ->sort('Title');
+
         return $tags;
     }
 
@@ -113,7 +114,7 @@ class NewsHolder extends Page
      *
      * @return ArrayList
      **/
-    public function getArchiveList($link=null, $currentYear=null, $currentMonth=null, $tag=null)
+    public function getArchiveList($link = null, $currentYear = null, $currentMonth = null, $tag = null)
     {
         $link = $link ? $link : $this->Link();
         $articles = $this->getArticleList($tag);
@@ -194,7 +195,9 @@ class NewsHolder extends Page
 
 class NewsHolder_Controller extends Page_Controller
 {
-
+    /**
+     * @var array
+     */
     private static $allowed_actions = array(
         'rss'
     );

@@ -248,7 +248,9 @@ class NewsArticle extends Page
         parent::onBeforeWrite();
 
         // Set publish date to the created date, if publish date not set
-        if (!$this->PublishDate) $this->PublishDate = $this->Created;
+        if (!$this->PublishDate) {
+            $this->PublishDate = $this->Created;
+        }
 
         // a bit hackey, but we need to set the parent ID somehow in GridField form...
         if ($currentPage = Controller::curr()->currentPage()) {

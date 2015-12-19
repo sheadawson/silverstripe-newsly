@@ -59,9 +59,9 @@ class NewsHolder extends Page
     }
 
     /**
-     * @param  int $tag
-     * @param  int $year
-     * @param  int $month
+     * @param int $tag
+     * @param int $year
+     * @param int $month
      * @return DataList
      */
     public function getArticleList($tag = null, $year = null, $month = null)

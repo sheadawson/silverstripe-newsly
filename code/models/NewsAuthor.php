@@ -60,7 +60,7 @@ class NewsAuthor extends DataObject
         return $fields;
     }
 
-    
+
     public function forTemplate()
     {
         return $this->Name;

@@ -14,10 +14,16 @@ class NewsHolder extends Page
         'NewsArticle'
     );
 
+    /**
+     * @var array
+     */
     private static $extensions = array(
         'Lumberjack',
     );
 
+    /**
+     * @var int
+     */
     private static $articles_per_page = 10;
 
     /**
@@ -251,6 +257,8 @@ class NewsHolder_Controller extends Page_Controller
 
     /**
      * Renders RSS feed
+     *
+     * @return HTMLText
      **/
     public function rss()
     {

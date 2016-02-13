@@ -45,4 +45,4 @@ NewsArticle:
 | enable_featured_articles | Enables a "Feature this Article" check box to the News Article CMS Fields. You can use this to feature worthy articles on a home page, for example  | boolean | true |
 | image_folder | Folder where article images should be stored | string | news/images |
 | attachment_folder | Folder where article attachments should be stored | string | news/attachments |
-| author_mode | Author mode can be: - string "string" to enable an Author text field (default) - string "object" to enable Author DataObject - boolean false to disable Article Authors | string | boolean |  |
+| author_mode | Author mode can be:<br>- string "string" to enable an Author text field (default)<br>- string "object" to enable Author DataObject<br>- boolean false to disable Article Authors | string | boolean |  |

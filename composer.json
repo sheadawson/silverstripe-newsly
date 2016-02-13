@@ -24,5 +24,8 @@
     },
     "extra": {
         "installer-name": "newsly"
+    },
+    "support": {
+        "issues": "https://github.com/sheadawson/silverstripe-newsly/issues"
     }
 }

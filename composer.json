@@ -20,7 +20,7 @@
         "silverstripe/framework": "~3.1",
         "silverstripe/cms": "~3.1",
         "sheadawson/quickaddnew": "1.1.*",
-        "micmania1/silverstripe-lumberjack": "1.0.*"
+        "silverstripe/lumberjack": "~1.1"
     },
     "extra": {
         "installer-name": "newsly"
